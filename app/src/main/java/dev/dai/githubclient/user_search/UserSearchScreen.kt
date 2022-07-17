@@ -1,10 +1,8 @@
-package dev.dai.githubclient
+package dev.dai.githubclient.user_search
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +18,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -30,27 +27,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.dai.githubclient.R
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
-class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      GithubClientTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-          modifier = Modifier.fillMaxSize(),
-          color = MaterialTheme.colors.background
-        ) {
-          UserSearchScreen()
-        }
-      }
-    }
-  }
-}
-
 @Composable
-private fun UserSearchScreen() {
+fun UserSearchScreen() {
   Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
@@ -68,7 +49,7 @@ private fun UserSearchScreen() {
       )
       LazyColumn {
         items(5) {
-          UserItem(userName = "ユーザー", imageUrl = "") // TODO connect to ViewModel
+          UserItem(userName = "ユーザー", imageUrl = "", onClickRow = {}) // TODO connect to ViewModel
         }
       }
     }
@@ -109,10 +90,12 @@ private fun UserSearchHeader(
 @Composable
 private fun UserItem(
   userName: String,
-  imageUrl: String
+  imageUrl: String,
+  onClickRow: () -> Unit
 ) {
   Row(
     modifier = Modifier
+      .clickable(onClick = onClickRow)
       .fillMaxWidth()
       .padding(horizontal = 16.dp, vertical = 8.dp),
     verticalAlignment = Alignment.CenterVertically
@@ -152,6 +135,6 @@ private fun UserSearchHeaderPreview() {
 @Composable
 private fun UserItem() {
   GithubClientTheme {
-    UserItem(userName = "ユーザー", imageUrl = "")
+    UserItem(userName = "ユーザー", imageUrl = "", onClickRow = {})
   }
 }
