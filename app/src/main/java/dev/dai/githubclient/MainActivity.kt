@@ -4,12 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -76,6 +77,28 @@ private fun UserSearchHeader(
   }
 }
 
+@Composable
+private fun UserItem(
+  userName: String,
+  imageUrl: String
+) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(horizontal = 16.dp, vertical = 8.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    // TODO coil AsyncImage
+    Image(
+      painter = painterResource(id = R.drawable.ic_droid),
+      contentDescription = null,
+      modifier = Modifier.size(56.dp)
+    )
+    Spacer(modifier = Modifier.width(16.dp))
+    Text(text = userName, style = MaterialTheme.typography.subtitle1)
+  }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun UserSearchHeaderPreview() {
@@ -85,5 +108,13 @@ private fun UserSearchHeaderPreview() {
       onSearchTextChanged = {},
       onClickSearch = {}
     )
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UserItem() {
+  GithubClientTheme {
+    UserItem(userName = "ユーザー", imageUrl = "")
   }
 }
