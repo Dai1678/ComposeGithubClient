@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.dai.githubclient.ui.theme.GithubClientTheme
@@ -54,13 +55,12 @@ private fun UserSearchScreen() {
     modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
-        title = {
-          Text(text = "ユーザー検索")
-        }
+        title = { Text(text = stringResource(id = R.string.title_user_search)) }
       )
     }
   ) {
     Column {
+      // TODO connect to ViewModel
       UserSearchHeader(
         searchText = "",
         onSearchTextChanged = {},
@@ -68,7 +68,7 @@ private fun UserSearchScreen() {
       )
       LazyColumn {
         items(5) {
-          UserItem(userName = "ユーザー", imageUrl = "")
+          UserItem(userName = "ユーザー", imageUrl = "") // TODO connect to ViewModel
         }
       }
     }
@@ -90,9 +90,7 @@ private fun UserSearchHeader(
     OutlinedTextField(
       value = searchText,
       onValueChange = onSearchTextChanged,
-      label = {
-        Text(text = "ユーザー名")
-      },
+      label = { Text(text = stringResource(id = R.string.label_user_name)) },
       trailingIcon = {
         AnimatedVisibility(visible = searchText.isNotEmpty()) {
           IconButton(onClick = { onSearchTextChanged("") }) {
@@ -103,7 +101,7 @@ private fun UserSearchHeader(
     )
     Spacer(modifier = Modifier.width(16.dp))
     Button(onClick = onClickSearch) {
-      Text(text = "検索")
+      Text(text = stringResource(id = R.string.label_search))
     }
   }
 }
@@ -119,7 +117,7 @@ private fun UserItem(
       .padding(horizontal = 16.dp, vertical = 8.dp),
     verticalAlignment = Alignment.CenterVertically
   ) {
-    // TODO coil AsyncImage
+    // TODO use Coil-Compose AsyncImage
     Image(
       painter = painterResource(id = R.drawable.ic_droid),
       contentDescription = null,
