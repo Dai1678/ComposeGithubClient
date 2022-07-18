@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -29,12 +30,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
+import dev.dai.githubclient.domain.model.UserSearchResult
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
 @Composable
-fun UserSearchScreen() {
+fun UserSearchScreen(
+  viewModel: UserSearchViewModel = viewModel()
+) {
+  val uiState = viewModel.uiState
+
   Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
@@ -43,17 +50,42 @@ fun UserSearchScreen() {
       )
     }
   ) {
-    Column {
-      // TODO connect to ViewModel
-      UserSearchHeader(
-        searchText = "",
-        onSearchTextChanged = {},
-        onClickSearch = {}
-      )
-      LazyColumn {
-        items(5) {
-          UserItem(userName = "ユーザー", imageUrl = "https://placehold.jp/240x240.png", onClickRow = {}) // TODO connect to ViewModel
-        }
+    UserSearchScreenContent(
+      searchText = uiState.searchText,
+      userList = uiState.userList,
+      onSearchTextChanged = { viewModel.onSearchTextChanged(it) },
+      onClickSearch = { viewModel.searchUser() },
+      onClickUserRow = {
+        // TODO ユーザーリポジトリ画面に遷移
+      }
+    )
+  }
+
+  // TODO Event handling
+  // TODO Loading handling
+}
+
+@Composable
+private fun UserSearchScreenContent(
+  searchText: String,
+  userList: List<UserSearchResult>,
+  onSearchTextChanged: (String) -> Unit,
+  onClickSearch: () -> Unit,
+  onClickUserRow: () -> Unit
+) {
+  Column(modifier = Modifier.fillMaxSize()) {
+    UserSearchHeader(
+      searchText = searchText,
+      onSearchTextChanged = onSearchTextChanged,
+      onClickSearch = onClickSearch
+    )
+    LazyColumn {
+      items(userList) {
+        UserItem(
+          userName = it.userName,
+          imageUrl = it.avatarUrl,
+          onClickRow = onClickUserRow
+        )
       }
     }
   }
@@ -118,9 +150,41 @@ private fun UserItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun UserSearchScreenPreview() {
+private fun UserSearchScreenContentPreview() {
   GithubClientTheme {
-    UserSearchScreen()
+    UserSearchScreenContent(
+      searchText = "",
+      userList = listOf(
+        UserSearchResult(
+          id = 0,
+          userName = "ユーザー0",
+          avatarUrl = "https://placehold.jp/240x240.png"
+        ),
+        UserSearchResult(
+          id = 1,
+          userName = "ユーザー1",
+          avatarUrl = "https://placehold.jp/240x240.png"
+        ),
+        UserSearchResult(
+          id = 2,
+          userName = "ユーザー2",
+          avatarUrl = "https://placehold.jp/240x240.png"
+        ),
+        UserSearchResult(
+          id = 3,
+          userName = "ユーザー3",
+          avatarUrl = "https://placehold.jp/240x240.png"
+        ),
+        UserSearchResult(
+          id = 4,
+          userName = "ユーザー4",
+          avatarUrl = "https://placehold.jp/240x240.png"
+        ),
+      ),
+      onSearchTextChanged = {},
+      onClickSearch = {},
+      onClickUserRow = {}
+    )
   }
 }
 
