@@ -1,5 +1,8 @@
 package dev.dai.githubclient.infra.api.di
 
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +25,7 @@ object ApiModule {
   fun provideGithubApi(): GithubApi {
     return Retrofit.Builder()
       .baseUrl(BASE_URL)
-      .addConverterFactory(GsonConverterFactory.create())
+      .addConverterFactory(GsonConverterFactory.create(provideGson()))
       .client(provideOkhttpClient())
       .build()
       .create(GithubApi::class.java)
@@ -33,6 +36,12 @@ object ApiModule {
       .addInterceptor(provideLogging())
       .addInterceptor(AuthorizationInterceptor())
       .build()
+  }
+
+  private fun provideGson(): Gson {
+    return GsonBuilder()
+      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+      .create()
   }
 
   private fun provideLogging() = HttpLoggingInterceptor().apply {
