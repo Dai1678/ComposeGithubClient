@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">GithubClient</string>
+    <string name="title_user_search">ユーザー検索</string>
+    <string name="label_search">検索</string>
+    <string name="label_user_name">ユーザー名</string>
 </resources>
