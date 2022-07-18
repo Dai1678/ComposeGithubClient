@@ -5,11 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.dai.githubclient.domain.model.UserSearchResult
 import dev.dai.githubclient.domain.repository.SearchRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserSearchViewModel(
+@HiltViewModel
+class UserSearchViewModel @Inject constructor(
   private val searchRepository: SearchRepository
 ) : ViewModel() {
 
