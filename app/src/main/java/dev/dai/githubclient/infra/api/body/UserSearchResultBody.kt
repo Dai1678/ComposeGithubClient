@@ -8,6 +8,7 @@ data class UserSearchResultIndexBody(
 )
 
 data class UserSearchResultBody(
+  val id: Int,
   @SerializedName("login") val userName: String,
   val avatarUrl: String
 )
