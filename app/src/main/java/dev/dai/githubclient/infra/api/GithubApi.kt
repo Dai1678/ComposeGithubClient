@@ -7,7 +7,6 @@ import retrofit2.http.Query
 interface GithubApi {
   @GET("/search/users")
   suspend fun searchUsers(
-    @Query("q") query: String,
-    @Query("per_page") perPage: Int
+    @Query("q") query: String
   ): UserSearchResultIndexBody
 }
