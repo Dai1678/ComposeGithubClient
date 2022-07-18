@@ -1,7 +1,6 @@
 package dev.dai.githubclient.ui.user_search
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -23,10 +23,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
@@ -49,7 +52,7 @@ fun UserSearchScreen() {
       )
       LazyColumn {
         items(5) {
-          UserItem(userName = "ユーザー", imageUrl = "", onClickRow = {}) // TODO connect to ViewModel
+          UserItem(userName = "ユーザー", imageUrl = "https://placehold.jp/240x240.png", onClickRow = {}) // TODO connect to ViewModel
         }
       }
     }
@@ -100,11 +103,13 @@ private fun UserItem(
       .padding(horizontal = 16.dp, vertical = 8.dp),
     verticalAlignment = Alignment.CenterVertically
   ) {
-    // TODO use Coil-Compose AsyncImage
-    Image(
-      painter = painterResource(id = R.drawable.ic_droid),
+    AsyncImage(
+      model = imageUrl,
       contentDescription = null,
-      modifier = Modifier.size(56.dp)
+      modifier = Modifier
+        .size(56.dp)
+        .clip(CircleShape),
+      contentScale = ContentScale.Crop
     )
     Spacer(modifier = Modifier.width(16.dp))
     Text(text = userName, style = MaterialTheme.typography.subtitle1)
@@ -135,6 +140,6 @@ private fun UserSearchHeaderPreview() {
 @Composable
 private fun UserItem() {
   GithubClientTheme {
-    UserItem(userName = "ユーザー", imageUrl = "", onClickRow = {})
+    UserItem(userName = "ユーザー", imageUrl = "https://placehold.jp/240x240.png", onClickRow = {})
   }
 }
