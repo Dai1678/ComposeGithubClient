@@ -1,4 +1,4 @@
-package dev.dai.githubclient.user_search
+package dev.dai.githubclient.ui.user_search
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package dev.dai.githubclient.user_search
+package dev.dai.githubclient.ui.user_search
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
