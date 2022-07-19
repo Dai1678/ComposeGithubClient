@@ -139,7 +139,9 @@ private fun UserSearchHeader(
     OutlinedTextField(
       value = searchText,
       onValueChange = onSearchTextChanged,
+      modifier = Modifier.weight(1f),
       label = { Text(text = stringResource(id = R.string.label_user_name)) },
+      singleLine = true,
       trailingIcon = {
         AnimatedVisibility(visible = searchText.isNotEmpty()) {
           IconButton(onClick = { onSearchTextChanged("") }) {
