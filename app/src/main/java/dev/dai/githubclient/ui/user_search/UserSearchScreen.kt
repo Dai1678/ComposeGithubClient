@@ -2,6 +2,7 @@ package dev.dai.githubclient.ui.user_search
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,9 +20,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,15 +38,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.domain.model.UserSearchResult
+import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
 @Composable
 fun UserSearchScreen(
-  viewModel: UserSearchViewModel = viewModel()
+  viewModel: UserSearchViewModel = viewModel(),
+  scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
   val uiState = viewModel.uiState
 
   Scaffold(
+    scaffoldState = scaffoldState,
     modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
@@ -61,8 +68,22 @@ fun UserSearchScreen(
     )
   }
 
-  // TODO Event handling
-  // TODO Loading handling
+  uiState.event?.let {
+    when (it) {
+      UserSearchEvent.FetchError -> {
+        val message = stringResource(id = R.string.message_failed_fetch)
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+          scaffoldState.snackbarHostState.showSnackbar(message)
+          // LaunchedEffect外で呼ぶと先にconsumeされてしまいsnackBarが表示されないので、ここでconsumeする
+          viewModel.consumeEvent()
+        }
+      }
+    }
+  }
+
+  if (uiState.isLoading) {
+    LoadingContent()
+  }
 }
 
 @Composable
@@ -79,13 +100,25 @@ private fun UserSearchScreenContent(
       onSearchTextChanged = onSearchTextChanged,
       onClickSearch = onClickSearch
     )
-    LazyColumn {
-      items(userList) {
-        UserItem(
-          userName = it.userName,
-          imageUrl = it.avatarUrl,
-          onClickRow = onClickUserRow
+    if (userList.isEmpty()) {
+      Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+      ) {
+        Text(
+          text = stringResource(id = R.string.message_empty_user_search_result),
+          style = MaterialTheme.typography.subtitle1
         )
+      }
+    } else {
+      LazyColumn {
+        items(userList) {
+          UserItem(
+            userName = it.userName,
+            imageUrl = it.avatarUrl,
+            onClickRow = onClickUserRow
+          )
+        }
       }
     }
   }

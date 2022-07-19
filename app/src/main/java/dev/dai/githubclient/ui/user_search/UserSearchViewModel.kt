@@ -28,11 +28,7 @@ class UserSearchViewModel @Inject constructor(
     viewModelScope.launch {
       try {
         val result = searchRepository.searchUser(uiState.searchText)
-        uiState = if (result.totalCount == 0) {
-          uiState.copy(event = UserSearchEvent.UserNotFound)
-        } else {
-          uiState.copy(userList = result.userList)
-        }
+        uiState = uiState.copy(userList = result.userList)
       } catch (e: Exception) {
         uiState = uiState.copy(event = UserSearchEvent.FetchError)
       } finally {
@@ -55,5 +51,4 @@ data class UserSearchUiState(
 
 sealed interface UserSearchEvent {
   object FetchError : UserSearchEvent
-  object UserNotFound : UserSearchEvent
 }
