@@ -118,7 +118,7 @@ private fun UserSearchScreenContent(
       }
     } else {
       LazyColumn {
-        items(userList) {
+        items(userList, key = { it.id }) {
           UserItem(
             userName = it.userName,
             imageUrl = it.avatarUrl,
