@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -32,8 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -132,6 +136,7 @@ private fun UserSearchHeader(
   onSearchTextChanged: (String) -> Unit,
   onClickSearch: () -> Unit
 ) {
+  val focusManager = LocalFocusManager.current
   Row(
     modifier = Modifier
       .fillMaxWidth()
@@ -144,6 +149,11 @@ private fun UserSearchHeader(
       modifier = Modifier.weight(1f),
       label = { Text(text = stringResource(id = R.string.label_user_name)) },
       singleLine = true,
+      keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+      keyboardActions = KeyboardActions(onSearch = {
+        focusManager.clearFocus()
+        onClickSearch()
+      }),
       trailingIcon = {
         AnimatedVisibility(
           visible = searchText.isNotEmpty(),
@@ -157,7 +167,12 @@ private fun UserSearchHeader(
       }
     )
     Spacer(modifier = Modifier.width(16.dp))
-    Button(onClick = onClickSearch) {
+    Button(
+      onClick = {
+        focusManager.clearFocus()
+        onClickSearch()
+      }
+    ) {
       Text(text = stringResource(id = R.string.label_search))
     }
   }
