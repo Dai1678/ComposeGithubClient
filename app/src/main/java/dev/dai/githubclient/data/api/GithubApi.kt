@@ -1,6 +1,6 @@
-package dev.dai.githubclient.infra.api
+package dev.dai.githubclient.data.api
 
-import dev.dai.githubclient.infra.api.body.UserSearchResultIndexBody
+import dev.dai.githubclient.data.api.body.UserSearchResultIndexBody
 import retrofit2.http.GET
 import retrofit2.http.Query
 

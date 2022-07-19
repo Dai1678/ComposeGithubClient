@@ -1,4 +1,4 @@
-package dev.dai.githubclient.domain.model
+package dev.dai.githubclient.model
 
 data class UserSearchResultIndex(
   val totalCount: Int,

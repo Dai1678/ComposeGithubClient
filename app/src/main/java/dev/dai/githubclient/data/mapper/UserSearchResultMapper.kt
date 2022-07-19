@@ -1,9 +1,9 @@
-package dev.dai.githubclient.domain.mapper
+package dev.dai.githubclient.data.mapper
 
-import dev.dai.githubclient.domain.model.UserSearchResult
-import dev.dai.githubclient.domain.model.UserSearchResultIndex
-import dev.dai.githubclient.infra.api.body.UserSearchResultBody
-import dev.dai.githubclient.infra.api.body.UserSearchResultIndexBody
+import dev.dai.githubclient.data.api.body.UserSearchResultBody
+import dev.dai.githubclient.data.api.body.UserSearchResultIndexBody
+import dev.dai.githubclient.model.UserSearchResult
+import dev.dai.githubclient.model.UserSearchResultIndex
 
 fun UserSearchResultIndexBody.toUserSearchResultIndex(): UserSearchResultIndex {
   return UserSearchResultIndex(

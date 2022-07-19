@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.dai.githubclient.domain.model.UserSearchResult
-import dev.dai.githubclient.domain.repository.SearchRepository
+import dev.dai.githubclient.data.repository.SearchRepository
+import dev.dai.githubclient.model.UserSearchResult
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

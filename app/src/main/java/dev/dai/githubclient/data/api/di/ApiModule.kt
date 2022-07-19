@@ -1,4 +1,4 @@
-package dev.dai.githubclient.infra.api.di
+package dev.dai.githubclient.data.api.di
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -8,8 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.dai.githubclient.BuildConfig
-import dev.dai.githubclient.infra.api.AuthorizationInterceptor
-import dev.dai.githubclient.infra.api.GithubApi
+import dev.dai.githubclient.data.api.AuthorizationInterceptor
+import dev.dai.githubclient.data.api.GithubApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
