@@ -16,6 +16,9 @@ Required latest Android Studio.
 This project build to need Github personal access token.
 You can create it from [this page](https://github.com/settings/tokens) and select scopes **repo** and **user**.
 
+### Design
+[Figma](https://www.figma.com/file/5YY2fYOYhYO1SNfld1mVgC/Github-Client?node-id=1037%3A3346)
+
 ## Architecture
 2Layer Architecture.
 - UI layer
