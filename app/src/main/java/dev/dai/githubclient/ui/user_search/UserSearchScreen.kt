@@ -167,7 +167,12 @@ private fun UserSearchHeader(
       }
     )
     Spacer(modifier = Modifier.width(16.dp))
-    Button(onClick = onClickSearch) {
+    Button(
+      onClick = {
+        focusManager.clearFocus()
+        onClickSearch()
+      }
+    ) {
       Text(text = stringResource(id = R.string.label_search))
     }
   }
