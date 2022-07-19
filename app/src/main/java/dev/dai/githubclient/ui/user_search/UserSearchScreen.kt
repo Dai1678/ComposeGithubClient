@@ -2,6 +2,7 @@ package dev.dai.githubclient.ui.user_search
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -96,13 +97,25 @@ private fun UserSearchScreenContent(
       onSearchTextChanged = onSearchTextChanged,
       onClickSearch = onClickSearch
     )
-    LazyColumn {
-      items(userList) {
-        UserItem(
-          userName = it.userName,
-          imageUrl = it.avatarUrl,
-          onClickRow = onClickUserRow
+    if (userList.isEmpty()) {
+      Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+      ) {
+        Text(
+          text = stringResource(id = R.string.message_empty_user_search_result),
+          style = MaterialTheme.typography.subtitle1
         )
+      }
+    } else {
+      LazyColumn {
+        items(userList) {
+          UserItem(
+            userName = it.userName,
+            imageUrl = it.avatarUrl,
+            onClickRow = onClickUserRow
+          )
+        }
       }
     }
   }
