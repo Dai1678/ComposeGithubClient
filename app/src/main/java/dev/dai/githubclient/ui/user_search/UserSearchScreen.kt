@@ -19,9 +19,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,11 +41,13 @@ import dev.dai.githubclient.ui.theme.GithubClientTheme
 
 @Composable
 fun UserSearchScreen(
-  viewModel: UserSearchViewModel = viewModel()
+  viewModel: UserSearchViewModel = viewModel(),
+  scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
   val uiState = viewModel.uiState
 
   Scaffold(
+    scaffoldState = scaffoldState,
     modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
@@ -61,7 +66,19 @@ fun UserSearchScreen(
     )
   }
 
-  // TODO Event handling
+  uiState.event?.let {
+    when (it) {
+      UserSearchEvent.FetchError -> {
+        val message = stringResource(id = R.string.message_failed_fetch)
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+          scaffoldState.snackbarHostState.showSnackbar(message)
+          // LaunchedEffect外で呼ぶと先にconsumeされてしまいsnackBarが表示されないので、ここでconsumeする
+          viewModel.consumeEvent()
+        }
+      }
+    }
+  }
+
   // TODO Loading handling
 }
 
