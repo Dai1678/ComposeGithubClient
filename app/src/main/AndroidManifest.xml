@@ -18,7 +18,8 @@
         <activity
             android:name=".ui.user_search.UserSearchActivity"
             android:exported="true"
-            android:theme="@style/Theme.GithubClient">
+            android:theme="@style/Theme.GithubClient"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
