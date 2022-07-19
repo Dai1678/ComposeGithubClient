@@ -1,4 +1,4 @@
-package dev.dai.githubclient.infra.api
+package dev.dai.githubclient.data.api
 
 import dev.dai.githubclient.BuildConfig
 import okhttp3.Interceptor

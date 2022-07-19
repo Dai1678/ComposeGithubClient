@@ -1,4 +1,4 @@
-package dev.dai.githubclient.infra.api.body
+package dev.dai.githubclient.data.api.body
 
 import com.google.gson.annotations.SerializedName
 

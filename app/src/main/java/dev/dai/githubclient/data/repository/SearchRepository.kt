@@ -1,8 +1,8 @@
-package dev.dai.githubclient.domain.repository
+package dev.dai.githubclient.data.repository
 
-import dev.dai.githubclient.domain.mapper.toUserSearchResultIndex
-import dev.dai.githubclient.domain.model.UserSearchResultIndex
-import dev.dai.githubclient.infra.api.GithubApi
+import dev.dai.githubclient.data.api.GithubApi
+import dev.dai.githubclient.data.mapper.toUserSearchResultIndex
+import dev.dai.githubclient.model.UserSearchResultIndex
 import javax.inject.Inject
 
 interface SearchRepository {
