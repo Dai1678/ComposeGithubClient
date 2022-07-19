@@ -11,7 +11,7 @@ Github Client for Android Jetpack Compose
 |<img src="https://user-images.githubusercontent.com/19250035/179735564-ae24f0f5-eb9c-4168-ba12-8042c59b7f85.png" width=300>||
 
 ### Getting Started
-Required latest Android Studio. (Not tested with Visual Studio Code)
+Required latest Android Studio.
 
 This project build to need Github personal access token.
 You can create it from [this page](https://github.com/settings/tokens) and select scopes **repo** and **user**.
