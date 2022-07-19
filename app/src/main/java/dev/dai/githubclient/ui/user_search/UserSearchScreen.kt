@@ -1,6 +1,8 @@
 package dev.dai.githubclient.ui.user_search
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -143,7 +145,11 @@ private fun UserSearchHeader(
       label = { Text(text = stringResource(id = R.string.label_user_name)) },
       singleLine = true,
       trailingIcon = {
-        AnimatedVisibility(visible = searchText.isNotEmpty()) {
+        AnimatedVisibility(
+          visible = searchText.isNotEmpty(),
+          enter = fadeIn(),
+          exit = fadeOut()
+        ) {
           IconButton(onClick = { onSearchTextChanged("") }) {
             Icon(painter = painterResource(id = R.drawable.ic_cancel), contentDescription = null)
           }
