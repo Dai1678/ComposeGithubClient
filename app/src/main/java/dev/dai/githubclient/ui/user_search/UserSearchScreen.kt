@@ -38,6 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.domain.model.UserSearchResult
+import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
 @Composable
@@ -80,7 +81,9 @@ fun UserSearchScreen(
     }
   }
 
-  // TODO Loading handling
+  if (uiState.isLoading) {
+    LoadingContent()
+  }
 }
 
 @Composable
