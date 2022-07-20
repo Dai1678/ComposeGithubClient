@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GithubClient</string>
+    <string name="title_user_search">ユーザー検索</string>
+    <string name="label_search">検索</string>
+    <string name="label_user_name">ユーザー名</string>
+    <string name="message_failed_fetch">通信に失敗しました。再度お試しください。</string>
+    <string name="message_empty_user_search_result">検索結果なし</string>
 </resources>
