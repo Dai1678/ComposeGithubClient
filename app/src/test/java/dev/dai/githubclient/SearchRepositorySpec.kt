@@ -6,6 +6,7 @@ import dev.dai.githubclient.data.api.body.UserSearchResultIndexBody
 import dev.dai.githubclient.data.repository.DefaultSearchRepository
 import dev.dai.githubclient.model.UserSearchResult
 import dev.dai.githubclient.model.UserSearchResultIndex
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -21,21 +22,23 @@ class SearchRepositorySpec : DescribeSpec({
     coroutineTestScope = true
   }
 
+  val userSearchResultIndexBody = UserSearchResultIndexBody(
+    totalCount = 1,
+    items = listOf(
+      UserSearchResultBody(
+        id = 0,
+        userName = "user",
+        avatarUrl = "https://placehold.jp/240x240.png"
+      )
+    )
+  )
+
   describe("#searchUser") {
     val query = "user"
     context("response success") {
       coEvery {
         githubApi.searchUsers(query = query)
-      } returns UserSearchResultIndexBody(
-        totalCount = 1,
-        items = listOf(
-          UserSearchResultBody(
-            id = 0,
-            userName = "user",
-            avatarUrl = "https://placehold.jp/240x240.png"
-          )
-        )
-      )
+      } returns userSearchResultIndexBody
       val repository = DefaultSearchRepository(githubApi)
       val response = repository.searchUser(query)
 
@@ -50,6 +53,19 @@ class SearchRepositorySpec : DescribeSpec({
             )
           )
         )
+      }
+    }
+
+    context("#response fail") {
+      val exception = Exception()
+      coEvery {
+        githubApi.searchUsers(query = query)
+      } throws exception
+
+      val repository = DefaultSearchRepository(githubApi)
+
+      it("throw Exception") {
+        shouldThrow<Exception> { repository.searchUser(query) }
       }
     }
   }
