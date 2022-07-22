@@ -6,6 +6,7 @@ import dev.dai.githubclient.model.UserSearchResultIndex
 import dev.dai.githubclient.ui.user_search.UserSearchUiState
 import dev.dai.githubclient.ui.user_search.UserSearchViewModel
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -67,6 +68,17 @@ class UserSearchViewModelSpec : DescribeSpec({
             userList = listOf(userSearchResult)
           )
         }
+      }
+    }
+  }
+
+  describe("#consumeEvent") {
+    context("consume event") {
+      val viewModel = UserSearchViewModel(searchRepository)
+      viewModel.consumeEvent()
+
+      it("event should be null") {
+        viewModel.uiState.event.shouldBeNull()
       }
     }
   }
