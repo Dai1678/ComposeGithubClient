@@ -11,25 +11,15 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 
 @ExperimentalCoroutinesApi
 class UserSearchViewModelSpec : DescribeSpec({
 
+  extension(MainDispatcherListener())
+
   val searchRepository = mockk<SearchRepository>()
-
-  beforeTest {
-    Dispatchers.setMain(UnconfinedTestDispatcher())
-  }
-
-  afterTest {
-    Dispatchers.resetMain()
-  }
 
   val userSearchResult = UserSearchResult(
     id = 0,
@@ -102,5 +92,4 @@ class UserSearchViewModelSpec : DescribeSpec({
       }
     }
   }
-
 })
