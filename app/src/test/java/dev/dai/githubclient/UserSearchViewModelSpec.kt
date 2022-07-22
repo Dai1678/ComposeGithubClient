@@ -3,6 +3,7 @@ package dev.dai.githubclient
 import dev.dai.githubclient.data.repository.SearchRepository
 import dev.dai.githubclient.model.UserSearchResult
 import dev.dai.githubclient.model.UserSearchResultIndex
+import dev.dai.githubclient.ui.user_search.UserSearchEvent
 import dev.dai.githubclient.ui.user_search.UserSearchUiState
 import dev.dai.githubclient.ui.user_search.UserSearchViewModel
 import io.kotest.core.spec.style.DescribeSpec
@@ -62,10 +63,29 @@ class UserSearchViewModelSpec : DescribeSpec({
         viewModel.onSearchTextChanged(inputUserName)
         viewModel.searchUser()
 
-        it("return should be userList") {
+        it("userList should be collect value") {
           viewModel.uiState shouldBe UserSearchUiState(
             searchText = inputUserName,
             userList = listOf(userSearchResult)
+          )
+        }
+      }
+    }
+
+    context("response fail") {
+      runTest {
+        val exception = Exception()
+        coEvery {
+          searchRepository.searchUser(inputUserName)
+        } throws exception
+        val viewModel = UserSearchViewModel(searchRepository)
+        viewModel.onSearchTextChanged(inputUserName)
+        viewModel.searchUser()
+
+        it("event should be FetchError") {
+          viewModel.uiState shouldBe UserSearchUiState(
+            searchText = inputUserName,
+            event = UserSearchEvent.FetchError
           )
         }
       }
