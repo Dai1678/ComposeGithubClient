@@ -20,6 +20,7 @@ class UserSearchViewModelSpec : DescribeSpec({
   extension(MainDispatcherListener())
 
   val searchRepository = mockk<SearchRepository>()
+  lateinit var viewModel: UserSearchViewModel
 
   val userSearchResult = UserSearchResult(
     id = 0,
@@ -27,10 +28,13 @@ class UserSearchViewModelSpec : DescribeSpec({
     avatarUrl = "https://placehold.jp/240x240.png"
   )
 
+  beforeSpec {
+    viewModel = UserSearchViewModel(searchRepository)
+  }
+
   describe("#onSearchTextChanged") {
     val inputUserName = "user"
     context("input user") {
-      val viewModel = UserSearchViewModel(searchRepository)
       viewModel.onSearchTextChanged(inputUserName)
 
       it("searchText should be user") {
@@ -48,7 +52,6 @@ class UserSearchViewModelSpec : DescribeSpec({
         totalCount = 1,
         userList = listOf(userSearchResult)
       )
-      val viewModel = UserSearchViewModel(searchRepository)
       viewModel.onSearchTextChanged(inputUserName)
       viewModel.searchUser()
 
@@ -58,6 +61,10 @@ class UserSearchViewModelSpec : DescribeSpec({
           userList = listOf(userSearchResult)
         )
       }
+
+      it("verify searchUser") {
+        coVerify(exactly = 1) { searchRepository.searchUser(inputUserName) }
+      }
     }
 
     context("response fail") {
@@ -65,7 +72,6 @@ class UserSearchViewModelSpec : DescribeSpec({
       coEvery {
         searchRepository.searchUser(inputUserName)
       } throws exception
-      val viewModel = UserSearchViewModel(searchRepository)
       viewModel.onSearchTextChanged(inputUserName)
       viewModel.searchUser()
 
@@ -75,16 +81,15 @@ class UserSearchViewModelSpec : DescribeSpec({
           event = UserSearchEvent.FetchError
         )
       }
-    }
 
-    it("verify") {
-      coVerify(exactly = 2) { searchRepository.searchUser(inputUserName) }
+      it("verify searchUser") {
+        coVerify(exactly = 1) { searchRepository.searchUser(inputUserName) }
+      }
     }
   }
 
   describe("#consumeEvent") {
     context("consume event") {
-      val viewModel = UserSearchViewModel(searchRepository)
       viewModel.consumeEvent()
 
       it("event should be null") {

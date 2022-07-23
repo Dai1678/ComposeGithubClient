@@ -10,6 +10,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -17,6 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class SearchRepositorySpec : DescribeSpec({
 
   val githubApi = mockk<GithubApi>()
+  lateinit var repository: DefaultSearchRepository
 
   val userSearchResultIndexBody = UserSearchResultIndexBody(
     totalCount = 1,
@@ -29,13 +31,16 @@ class SearchRepositorySpec : DescribeSpec({
     )
   )
 
+  beforeSpec {
+    repository = DefaultSearchRepository(githubApi)
+  }
+
   describe("#searchUser") {
     val query = "user"
     context("response success") {
       coEvery {
         githubApi.searchUsers(query)
       } returns userSearchResultIndexBody
-      val repository = DefaultSearchRepository(githubApi)
       val response = repository.searchUser(query)
 
       it("response should be UserSearchResultIndex") {
@@ -50,6 +55,10 @@ class SearchRepositorySpec : DescribeSpec({
           )
         )
       }
+
+      it("verify searchUsers") {
+        coVerify(exactly = 1) { githubApi.searchUsers(query) }
+      }
     }
 
     context("#response fail") {
@@ -58,15 +67,13 @@ class SearchRepositorySpec : DescribeSpec({
         githubApi.searchUsers(query)
       } throws exception
 
-      val repository = DefaultSearchRepository(githubApi)
-
       it("throw Exception") {
         shouldThrow<Exception> { repository.searchUser(query) }
       }
-    }
 
-    it("verify") {
-      coEvery { githubApi.searchUsers(query) }
+      it("verify searchUsers") {
+        coVerify(exactly = 0) { githubApi.searchUsers(query) }
+      }
     }
   }
 })
