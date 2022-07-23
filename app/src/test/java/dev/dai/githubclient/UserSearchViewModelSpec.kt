@@ -12,7 +12,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 
 @ExperimentalCoroutinesApi
 class UserSearchViewModelSpec : DescribeSpec({
@@ -42,42 +41,38 @@ class UserSearchViewModelSpec : DescribeSpec({
   describe("#searchUser") {
     val inputUserName = "user"
     context("response success") {
-      runTest {
-        coEvery {
-          searchRepository.searchUser(inputUserName)
-        } returns UserSearchResultIndex(
-          totalCount = 1,
+      coEvery {
+        searchRepository.searchUser(inputUserName)
+      } returns UserSearchResultIndex(
+        totalCount = 1,
+        userList = listOf(userSearchResult)
+      )
+      val viewModel = UserSearchViewModel(searchRepository)
+      viewModel.onSearchTextChanged(inputUserName)
+      viewModel.searchUser()
+
+      it("userList should be collect value") {
+        viewModel.uiState shouldBe UserSearchUiState(
+          searchText = inputUserName,
           userList = listOf(userSearchResult)
         )
-        val viewModel = UserSearchViewModel(searchRepository)
-        viewModel.onSearchTextChanged(inputUserName)
-        viewModel.searchUser()
-
-        it("userList should be collect value") {
-          viewModel.uiState shouldBe UserSearchUiState(
-            searchText = inputUserName,
-            userList = listOf(userSearchResult)
-          )
-        }
       }
     }
 
     context("response fail") {
-      runTest {
-        val exception = Exception()
-        coEvery {
-          searchRepository.searchUser(inputUserName)
-        } throws exception
-        val viewModel = UserSearchViewModel(searchRepository)
-        viewModel.onSearchTextChanged(inputUserName)
-        viewModel.searchUser()
+      val exception = Exception()
+      coEvery {
+        searchRepository.searchUser(inputUserName)
+      } throws exception
+      val viewModel = UserSearchViewModel(searchRepository)
+      viewModel.onSearchTextChanged(inputUserName)
+      viewModel.searchUser()
 
-        it("event should be FetchError") {
-          viewModel.uiState shouldBe UserSearchUiState(
-            searchText = inputUserName,
-            event = UserSearchEvent.FetchError
-          )
-        }
+      it("event should be FetchError") {
+        viewModel.uiState shouldBe UserSearchUiState(
+          searchText = inputUserName,
+          event = UserSearchEvent.FetchError
+        )
       }
     }
   }

@@ -18,10 +18,6 @@ class SearchRepositorySpec : DescribeSpec({
 
   val githubApi = mockk<GithubApi>()
 
-  beforeSpec {
-    coroutineTestScope = true
-  }
-
   val userSearchResultIndexBody = UserSearchResultIndexBody(
     totalCount = 1,
     items = listOf(
