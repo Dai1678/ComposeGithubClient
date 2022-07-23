@@ -68,10 +68,9 @@ class UserSearchViewModelSpec : DescribeSpec({
     }
 
     context("response fail") {
-      val exception = Exception()
       coEvery {
         searchRepository.searchUser(inputUserName)
-      } throws exception
+      } throws Exception()
       viewModel.onSearchTextChanged(inputUserName)
       viewModel.searchUser()
 

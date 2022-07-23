@@ -62,10 +62,9 @@ class SearchRepositorySpec : DescribeSpec({
     }
 
     context("#response fail") {
-      val exception = Exception()
       coEvery {
         githubApi.searchUsers(query)
-      } throws exception
+      } throws Exception()
 
       it("throw Exception") {
         shouldThrow<Exception> { repository.searchUser(query) }
