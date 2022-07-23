@@ -33,7 +33,7 @@ class SearchRepositorySpec : DescribeSpec({
     val query = "user"
     context("response success") {
       coEvery {
-        githubApi.searchUsers(query = query)
+        githubApi.searchUsers(query)
       } returns userSearchResultIndexBody
       val repository = DefaultSearchRepository(githubApi)
       val response = repository.searchUser(query)
@@ -55,7 +55,7 @@ class SearchRepositorySpec : DescribeSpec({
     context("#response fail") {
       val exception = Exception()
       coEvery {
-        githubApi.searchUsers(query = query)
+        githubApi.searchUsers(query)
       } throws exception
 
       val repository = DefaultSearchRepository(githubApi)
@@ -63,6 +63,10 @@ class SearchRepositorySpec : DescribeSpec({
       it("throw Exception") {
         shouldThrow<Exception> { repository.searchUser(query) }
       }
+    }
+
+    it("verify") {
+      coEvery { githubApi.searchUsers(query) }
     }
   }
 })

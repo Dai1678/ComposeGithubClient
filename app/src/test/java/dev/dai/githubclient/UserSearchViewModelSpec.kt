@@ -10,6 +10,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -74,6 +75,10 @@ class UserSearchViewModelSpec : DescribeSpec({
           event = UserSearchEvent.FetchError
         )
       }
+    }
+
+    it("verify") {
+      coVerify(exactly = 2) { searchRepository.searchUser(inputUserName) }
     }
   }
 
