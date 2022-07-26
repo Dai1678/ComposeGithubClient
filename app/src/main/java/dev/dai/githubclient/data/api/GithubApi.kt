@@ -1,7 +1,9 @@
 package dev.dai.githubclient.data.api
 
+import dev.dai.githubclient.data.api.body.UserBody
 import dev.dai.githubclient.data.api.body.UserSearchResultIndexBody
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GithubApi {
@@ -9,4 +11,9 @@ interface GithubApi {
   suspend fun searchUsers(
     @Query("q") query: String
   ): UserSearchResultIndexBody
+
+  @GET("/users/{username}")
+  suspend fun user(
+    @Path("username") userName: String
+  ): UserBody
 }
