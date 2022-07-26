@@ -10,6 +10,7 @@ fun GithubRepoIndexBody.toGithubRepoList(): List<GithubRepo> {
 
 private fun GithubRepoBody.toGithubRepo(): GithubRepo {
   return GithubRepo(
+    id = id,
     title = title,
     description = description,
     fork = fork,
