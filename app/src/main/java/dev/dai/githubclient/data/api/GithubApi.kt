@@ -1,5 +1,6 @@
 package dev.dai.githubclient.data.api
 
+import dev.dai.githubclient.data.api.body.GithubRepoIndexBody
 import dev.dai.githubclient.data.api.body.UserBody
 import dev.dai.githubclient.data.api.body.UserSearchResultIndexBody
 import retrofit2.http.GET
@@ -16,4 +17,10 @@ interface GithubApi {
   suspend fun user(
     @Path("username") userName: String
   ): UserBody
+
+  @GET("/users/{username}/repo")
+  suspend fun userGithubRepo(
+    @Path("username") userName: String,
+    @Query("per_page") perPage: Int
+  ): GithubRepoIndexBody
 }
