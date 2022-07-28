@@ -29,7 +29,7 @@ class UserDetailViewModelSpec : DescribeSpec({
     followingCount = 0
   )
 
-  beforeTest {
+  beforeSpec {
     viewModel = UserDetailViewModel(userRepository)
   }
 
