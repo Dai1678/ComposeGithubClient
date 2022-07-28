@@ -5,6 +5,7 @@ data class GithubRepoIndexBody(
 )
 
 data class GithubRepoBody(
+  val id: Int,
   val title: String,
   val description: String?,
   val fork: Boolean,
