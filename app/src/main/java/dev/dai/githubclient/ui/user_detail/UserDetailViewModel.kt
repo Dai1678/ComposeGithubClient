@@ -24,7 +24,7 @@ class UserDetailViewModel(
         val result = userRepository.userDetail(userName)
         uiState = uiState.copy(
           user = result.user,
-          githubRepoList = result.githubRepoList
+          githubRepoList = result.githubRepoList.filter { !it.fork }
         )
       } catch (e: Exception) {
         uiState = uiState.copy(event = UserDetailEvent.FetchError)
