@@ -35,7 +35,7 @@ class UserDetailViewModelSpec : DescribeSpec({
 
   describe("#fetchUserDetail") {
     val userName = "user"
-    context("success") {
+    context("response success") {
       coEvery {
         userRepository.userDetail(userName)
       } returns UserDetail(
@@ -79,6 +79,22 @@ class UserDetailViewModelSpec : DescribeSpec({
             )
           )
         )
+      }
+
+      it("verify") {
+        coVerify(exactly = 1) { userRepository.userDetail(userName) }
+      }
+    }
+
+    context("response fail") {
+      coEvery {
+        userRepository.userDetail(userName)
+      } throws Exception()
+
+      viewModel.fetchUserDetail(userName)
+
+      it("event should be FetchError") {
+        viewModel.uiState.event shouldBe UserDetailEvent.FetchError
       }
 
       it("verify") {
