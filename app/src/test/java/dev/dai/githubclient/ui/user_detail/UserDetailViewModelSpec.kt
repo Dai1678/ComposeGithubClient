@@ -6,6 +6,7 @@ import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
 import dev.dai.githubclient.model.UserDetail
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -103,4 +104,13 @@ class UserDetailViewModelSpec : DescribeSpec({
     }
   }
 
+  describe("#consumeEvent") {
+    context("consume event") {
+      viewModel.consumeEvent()
+
+      it("event should be null") {
+        viewModel.uiState.event.shouldBeNull()
+      }
+    }
+  }
 })
