@@ -10,6 +10,7 @@ import dev.dai.githubclient.data.repository.UserRepository
 import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +31,7 @@ class UserDetailViewModel @Inject constructor(
           githubRepoList = result.githubRepoList.filter { !it.fork }
         )
       } catch (e: Exception) {
+        Timber.e(e)
         uiState = uiState.copy(event = UserDetailEvent.FetchError)
       } finally {
         uiState = uiState.copy(isLoading = false)

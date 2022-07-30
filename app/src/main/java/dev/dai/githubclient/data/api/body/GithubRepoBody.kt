@@ -1,15 +1,11 @@
 package dev.dai.githubclient.data.api.body
 
-data class GithubRepoIndexBody(
-  val items: List<GithubRepoBody>
-)
-
 data class GithubRepoBody(
   val id: Int,
-  val title: String,
+  val name: String,
   val description: String?,
   val fork: Boolean,
-  val url: String,
+  val htmlUrl: String,
   val language: String?,
-  val stargazerCount: Int
+  val stargazersCount: Int
 )

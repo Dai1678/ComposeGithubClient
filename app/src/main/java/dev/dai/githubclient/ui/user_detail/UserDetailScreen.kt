@@ -17,20 +17,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,7 +59,8 @@ import dev.dai.githubclient.ui.theme.GithubClientTheme
 fun UserDetailScreen(
   userName: String,
   viewModel: UserDetailViewModel = viewModel(),
-  scaffoldState: ScaffoldState = rememberScaffoldState()
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
+  onClickNavigationIcon: () -> Unit
 ) {
   val context = LocalContext.current
   val uiState = viewModel.uiState
@@ -67,7 +74,12 @@ fun UserDetailScreen(
     modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
-        title = { Text(text = stringResource(id = R.string.title_user_repository)) }
+        title = { Text(text = stringResource(id = R.string.title_user_repository)) },
+        navigationIcon = {
+          IconButton(onClick = onClickNavigationIcon) {
+            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+          }
+        }
       )
     }
   ) {
@@ -111,13 +123,13 @@ private fun UserDetailContent(
   Column(modifier = Modifier.fillMaxSize()) {
     UserDetailHeader(
       userName = user.userName,
-      fullName = user.fullName,
+      fullName = user.fullName.orEmpty(),
       imageUrl = user.avatarUrl,
       followerCount = user.followerCount,
       followingCount = user.followingCount
     )
     LazyColumn(
-      contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+      contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
       verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
       items(repoList, key = { it.id }) {
@@ -125,7 +137,7 @@ private fun UserDetailContent(
           title = it.title,
           description = it.description,
           language = it.language,
-          stargazerCount = it.stargazerCount,
+          stargazerCount = it.stargazersCount,
           onClickItem = { onClickRepoCard(it.url) }
         )
       }
@@ -147,7 +159,13 @@ private fun UserDetailHeader(
       .padding(16.dp)
   ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-      AsyncImage(model = imageUrl, contentDescription = null, modifier = Modifier.size(40.dp))
+      AsyncImage(
+        model = imageUrl,
+        contentDescription = null,
+        modifier = Modifier
+          .size(40.dp)
+          .clip(CircleShape)
+      )
       Spacer(modifier = Modifier.width(16.dp))
       Column {
         Text(text = fullName, style = MaterialTheme.typography.subtitle1)
@@ -196,7 +214,8 @@ private fun GithubRepoCard(
 ) {
   Card(
     modifier = Modifier.fillMaxWidth(),
-    onClick = onClickItem
+    onClick = onClickItem,
+    elevation = 3.dp
   ) {
     Column(modifier = Modifier.padding(16.dp)) {
       Text(text = title, style = MaterialTheme.typography.subtitle2)
@@ -240,7 +259,7 @@ private fun UserDetailContentPreview() {
             title = "リポジトリ名",
             description = "リポジトリの説明",
             language = "Kotlin",
-            stargazerCount = 0,
+            stargazersCount = 0,
             fork = false,
             url = "https://github.com/Dai1678/ComposeGithubClient"
           )

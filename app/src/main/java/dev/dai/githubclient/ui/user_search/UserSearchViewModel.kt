@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.dai.githubclient.data.repository.SearchRepository
 import dev.dai.githubclient.model.UserSearchResult
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +31,7 @@ class UserSearchViewModel @Inject constructor(
         val result = searchRepository.searchUser(uiState.searchText)
         uiState = uiState.copy(userList = result.userList)
       } catch (e: Exception) {
+        Timber.e(e)
         uiState = uiState.copy(event = UserSearchEvent.FetchError)
       } finally {
         uiState = uiState.copy(isLoading = false)
