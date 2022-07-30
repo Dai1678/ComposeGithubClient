@@ -49,7 +49,7 @@ class UserDetailViewModelSpec : DescribeSpec({
             fork = true,
             url = "https://github.com",
             language = "Kotlin",
-            stargazerCount = 0
+            stargazersCount = 0
           ),
           GithubRepo(
             id = 1,
@@ -58,7 +58,7 @@ class UserDetailViewModelSpec : DescribeSpec({
             fork = false,
             url = "https://github.com",
             language = "Kotlin",
-            stargazerCount = 0
+            stargazersCount = 0
           )
         )
       )
@@ -76,7 +76,7 @@ class UserDetailViewModelSpec : DescribeSpec({
               fork = false,
               url = "https://github.com",
               language = "Kotlin",
-              stargazerCount = 0
+              stargazersCount = 0
             )
           )
         )

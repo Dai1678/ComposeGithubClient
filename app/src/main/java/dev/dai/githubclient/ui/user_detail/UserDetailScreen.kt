@@ -125,7 +125,7 @@ private fun UserDetailContent(
           title = it.title,
           description = it.description,
           language = it.language,
-          stargazerCount = it.stargazerCount,
+          stargazerCount = it.stargazersCount,
           onClickItem = { onClickRepoCard(it.url) }
         )
       }
@@ -240,7 +240,7 @@ private fun UserDetailContentPreview() {
             title = "リポジトリ名",
             description = "リポジトリの説明",
             language = "Kotlin",
-            stargazerCount = 0,
+            stargazersCount = 0,
             fork = false,
             url = "https://github.com/Dai1678/ComposeGithubClient"
           )

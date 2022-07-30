@@ -1,8 +1,9 @@
 package dev.dai.githubclient.data.repository
 
 import dev.dai.githubclient.data.api.GithubApi
-import dev.dai.githubclient.data.api.body.GithubRepoIndexBody
+import dev.dai.githubclient.data.api.body.GithubRepoBody
 import dev.dai.githubclient.data.api.body.UserBody
+import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
 import dev.dai.githubclient.model.UserDetail
 import io.kotest.assertions.throwables.shouldThrow
@@ -37,8 +38,16 @@ class UserRepositoryTest : DescribeSpec({
       )
       coEvery {
         githubApi.userGithubRepo(userName, 50)
-      } returns GithubRepoIndexBody(
-        items = listOf()
+      } returns listOf(
+        GithubRepoBody(
+          id = 0,
+          name = "ComposeGithubClient",
+          description = "Github Client for Android Jetpack Compose",
+          fork = false,
+          htmlUrl = "https://github.com/Dai1678/ComposeGithubClient",
+          language = "Kotlin",
+          stargazersCount = 0
+        )
       )
 
       val response = repository.userDetail(userName)
@@ -53,7 +62,17 @@ class UserRepositoryTest : DescribeSpec({
             followingCount = 0,
             followerCount = 0
           ),
-          githubRepoList = listOf()
+          githubRepoList = listOf(
+            GithubRepo(
+              id = 0,
+              title = "ComposeGithubClient",
+              description = "Github Client for Android Jetpack Compose",
+              fork = false,
+              url = "https://github.com/Dai1678/ComposeGithubClient",
+              language = "Kotlin",
+              stargazersCount = 0
+            )
+          )
         )
       }
 

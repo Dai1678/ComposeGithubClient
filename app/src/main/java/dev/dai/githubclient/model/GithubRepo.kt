@@ -7,5 +7,5 @@ data class GithubRepo(
   val fork: Boolean,
   val url: String,
   val language: String?,
-  val stargazerCount: Int
+  val stargazersCount: Int
 )
