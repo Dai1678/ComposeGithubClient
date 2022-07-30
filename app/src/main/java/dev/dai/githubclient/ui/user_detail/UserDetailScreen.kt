@@ -113,7 +113,7 @@ private fun UserDetailContent(
   Column(modifier = Modifier.fillMaxSize()) {
     UserDetailHeader(
       userName = user.userName,
-      fullName = user.fullName,
+      fullName = user.fullName.orEmpty(),
       imageUrl = user.avatarUrl,
       followerCount = user.followerCount,
       followingCount = user.followingCount
