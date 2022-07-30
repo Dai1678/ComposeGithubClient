@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -54,7 +53,6 @@ import dev.dai.githubclient.model.User
 import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
-@ExperimentalMaterialApi
 @Composable
 fun UserDetailScreen(
   userName: String,
@@ -113,7 +111,6 @@ fun UserDetailScreen(
   }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun UserDetailContent(
   user: User,
@@ -203,7 +200,6 @@ private fun UserDetailHeader(
   }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun GithubRepoCard(
   title: String,
@@ -237,7 +233,6 @@ private fun GithubRepoCard(
   }
 }
 
-@ExperimentalMaterialApi
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
@@ -287,7 +282,6 @@ private fun UserDetailHeaderPreview() {
   }
 }
 
-@ExperimentalMaterialApi
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
