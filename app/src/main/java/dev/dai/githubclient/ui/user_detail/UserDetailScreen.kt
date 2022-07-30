@@ -21,9 +21,11 @@ import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,15 +62,25 @@ fun UserDetailScreen(
     viewModel.fetchUserDetail(userName)
   }
 
-  uiState.user?.let {
-    UserDetailContent(
-      user = it,
-      repoList = uiState.githubRepoList,
-      onClickRepoCard = { url ->
-        val intent = CustomTabsIntent.Builder().build()
-        intent.launchUrl(context, Uri.parse(url))
-      }
-    )
+  Scaffold(
+    scaffoldState = scaffoldState,
+    modifier = Modifier.fillMaxSize(),
+    topBar = {
+      TopAppBar(
+        title = { Text(text = stringResource(id = R.string.title_user_repository)) }
+      )
+    }
+  ) {
+    uiState.user?.let {
+      UserDetailContent(
+        user = it,
+        repoList = uiState.githubRepoList,
+        onClickRepoCard = { url ->
+          val intent = CustomTabsIntent.Builder().build()
+          intent.launchUrl(context, Uri.parse(url))
+        }
+      )
+    }
   }
 
   uiState.event?.let {
