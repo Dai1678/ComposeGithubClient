@@ -1,6 +1,8 @@
 package dev.dai.githubclient.ui.user_detail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -63,7 +65,8 @@ fun UserDetailScreen(
       user = it,
       repoList = uiState.githubRepoList,
       onClickRepoCard = { url ->
-        // TODO Chrome Custom Tabs
+        val intent = CustomTabsIntent.Builder().build()
+        intent.launchUrl(context, Uri.parse(url))
       }
     )
   }
