@@ -3,13 +3,17 @@ package dev.dai.githubclient.ui.user_detail
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -29,7 +33,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
+import dev.dai.githubclient.model.GithubRepo
+import dev.dai.githubclient.model.User
 import dev.dai.githubclient.ui.theme.GithubClientTheme
+
+@ExperimentalMaterialApi
+@Composable
+private fun UserDetailContent(
+  user: User,
+  repoList: List<GithubRepo>,
+  onClickRepoCard: (String) -> Unit
+) {
+  Column(modifier = Modifier.fillMaxSize()) {
+    UserDetailHeader(
+      userName = user.userName,
+      fullName = user.fullName,
+      imageUrl = user.avatarUrl,
+      followerCount = user.followerCount,
+      followingCount = user.followingCount
+    )
+    LazyColumn(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+      items(repoList, key = { it.id }) {
+        GithubRepoCard(
+          title = it.title,
+          description = it.description,
+          language = it.language,
+          stargazerCount = it.stargazerCount,
+          onClickItem = { onClickRepoCard(it.url) }
+        )
+      }
+    }
+  }
+}
 
 @Composable
 private fun UserDetailHeader(
@@ -112,6 +147,39 @@ private fun GithubRepoCard(
         Image(painter = painterResource(id = R.drawable.ic_star_outline), contentDescription = null)
         Text(text = stargazerCount.toString(), style = MaterialTheme.typography.body2)
       }
+    }
+  }
+}
+
+@ExperimentalMaterialApi
+@Preview
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun UserDetailContentPreview() {
+  GithubClientTheme {
+    Surface {
+      UserDetailContent(
+        user = User(
+          id = 0,
+          userName = "Dai1678",
+          fullName = "miyamoto.dai",
+          avatarUrl = "https://avatars.githubusercontent.com/u/19250035?v=4",
+          followerCount = 0,
+          followingCount = 0
+        ),
+        repoList = listOf(
+          GithubRepo(
+            id = 0,
+            title = "リポジトリ名",
+            description = "リポジトリの説明",
+            language = "Kotlin",
+            stargazerCount = 0,
+            fork = false,
+            url = "https://github.com/Dai1678/ComposeGithubClient"
+          )
+        ),
+        onClickRepoCard = {}
+      )
     }
   }
 }
