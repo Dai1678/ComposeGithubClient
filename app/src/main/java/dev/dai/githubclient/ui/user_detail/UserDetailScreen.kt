@@ -2,6 +2,7 @@ package dev.dai.githubclient.ui.user_detail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -52,7 +53,10 @@ private fun UserDetailContent(
       followerCount = user.followerCount,
       followingCount = user.followingCount
     )
-    LazyColumn(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+    LazyColumn(
+      contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
       items(repoList, key = { it.id }) {
         GithubRepoCard(
           title = it.title,
