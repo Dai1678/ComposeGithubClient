@@ -1,6 +1,8 @@
 package dev.dai.githubclient.ui.user_detail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,11 +21,17 @@ import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -32,11 +40,66 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
+import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
+
+@ExperimentalMaterialApi
+@Composable
+fun UserDetailScreen(
+  userName: String,
+  viewModel: UserDetailViewModel = viewModel(),
+  scaffoldState: ScaffoldState = rememberScaffoldState()
+) {
+  val context = LocalContext.current
+  val uiState = viewModel.uiState
+
+  LaunchedEffect(Unit) {
+    viewModel.fetchUserDetail(userName)
+  }
+
+  Scaffold(
+    scaffoldState = scaffoldState,
+    modifier = Modifier.fillMaxSize(),
+    topBar = {
+      TopAppBar(
+        title = { Text(text = stringResource(id = R.string.title_user_repository)) }
+      )
+    }
+  ) {
+    uiState.user?.let {
+      UserDetailContent(
+        user = it,
+        repoList = uiState.githubRepoList,
+        onClickRepoCard = { url ->
+          val intent = CustomTabsIntent.Builder().build()
+          intent.launchUrl(context, Uri.parse(url))
+        }
+      )
+    }
+  }
+
+  uiState.event?.let {
+    when (it) {
+      UserDetailEvent.FetchError -> {
+        val message = stringResource(id = R.string.message_failed_fetch)
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+          scaffoldState.snackbarHostState.showSnackbar(message)
+          // LaunchedEffect外で呼ぶと先にconsumeされてしまいsnackBarが表示されないので、ここでconsumeする
+          viewModel.consumeEvent()
+        }
+      }
+    }
+  }
+
+  if (uiState.isLoading) {
+    LoadingContent()
+  }
+}
 
 @ExperimentalMaterialApi
 @Composable

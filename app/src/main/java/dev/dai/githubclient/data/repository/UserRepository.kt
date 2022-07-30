@@ -4,12 +4,18 @@ import dev.dai.githubclient.data.api.GithubApi
 import dev.dai.githubclient.data.mapper.toGithubRepoList
 import dev.dai.githubclient.data.mapper.toUser
 import dev.dai.githubclient.model.UserDetail
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface UserRepository {
   suspend fun userDetail(userName: String): UserDetail
 }
 
-class DefaultUserRepository(private val githubApi: GithubApi) : UserRepository {
+@Singleton
+class DefaultUserRepository @Inject constructor(
+  private val githubApi: GithubApi
+) : UserRepository {
+
   override suspend fun userDetail(userName: String): UserDetail {
     val user = githubApi.user(userName).toUser()
     val githubRepoList =

@@ -5,12 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.dai.githubclient.data.repository.UserRepository
 import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserDetailViewModel(
+@HiltViewModel
+class UserDetailViewModel @Inject constructor(
   private val userRepository: UserRepository
 ) : ViewModel() {
 
