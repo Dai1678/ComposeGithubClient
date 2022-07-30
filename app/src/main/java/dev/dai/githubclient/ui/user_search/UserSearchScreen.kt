@@ -50,7 +50,8 @@ import dev.dai.githubclient.ui.theme.GithubClientTheme
 @Composable
 fun UserSearchScreen(
   viewModel: UserSearchViewModel = viewModel(),
-  scaffoldState: ScaffoldState = rememberScaffoldState()
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
+  navigateToUserDetail: (String) -> Unit
 ) {
   val uiState = viewModel.uiState
 
@@ -69,7 +70,7 @@ fun UserSearchScreen(
       onSearchTextChanged = { viewModel.onSearchTextChanged(it) },
       onClickSearch = { viewModel.searchUser() },
       onClickUserRow = {
-        // TODO ユーザーリポジトリ画面に遷移
+        navigateToUserDetail(it)
       }
     )
   }
@@ -98,7 +99,7 @@ private fun UserSearchScreenContent(
   userList: List<UserSearchResult>,
   onSearchTextChanged: (String) -> Unit,
   onClickSearch: () -> Unit,
-  onClickUserRow: () -> Unit
+  onClickUserRow: (String) -> Unit
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     UserSearchHeader(
@@ -122,7 +123,7 @@ private fun UserSearchScreenContent(
           UserItem(
             userName = it.userName,
             imageUrl = it.avatarUrl,
-            onClickRow = onClickUserRow
+            onClickRow = { onClickUserRow(it.userName) }
           )
         }
       }

@@ -26,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.user_detail.UserDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GithubClient"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

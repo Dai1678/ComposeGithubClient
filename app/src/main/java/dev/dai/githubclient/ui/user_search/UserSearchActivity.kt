@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dai.githubclient.ui.theme.GithubClientTheme
+import dev.dai.githubclient.ui.user_detail.UserDetailActivity
 
 @AndroidEntryPoint
 class UserSearchActivity : ComponentActivity() {
@@ -21,7 +22,11 @@ class UserSearchActivity : ComponentActivity() {
           modifier = Modifier.fillMaxSize(),
           color = MaterialTheme.colors.background
         ) {
-          UserSearchScreen()
+          UserSearchScreen(
+            navigateToUserDetail = { userName ->
+              startActivity(UserDetailActivity.createIntent(this, userName))
+            }
+          )
         }
       }
     }
