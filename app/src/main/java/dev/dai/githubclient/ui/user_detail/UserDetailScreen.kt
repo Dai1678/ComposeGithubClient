@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -117,7 +119,7 @@ private fun UserDetailContent(
       followingCount = user.followingCount
     )
     LazyColumn(
-      contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+      contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
       verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
       items(repoList, key = { it.id }) {
@@ -147,7 +149,13 @@ private fun UserDetailHeader(
       .padding(16.dp)
   ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-      AsyncImage(model = imageUrl, contentDescription = null, modifier = Modifier.size(40.dp))
+      AsyncImage(
+        model = imageUrl,
+        contentDescription = null,
+        modifier = Modifier
+          .size(40.dp)
+          .clip(CircleShape)
+      )
       Spacer(modifier = Modifier.width(16.dp))
       Column {
         Text(text = fullName, style = MaterialTheme.typography.subtitle1)
@@ -196,7 +204,8 @@ private fun GithubRepoCard(
 ) {
   Card(
     modifier = Modifier.fillMaxWidth(),
-    onClick = onClickItem
+    onClick = onClickItem,
+    elevation = 3.dp
   ) {
     Column(modifier = Modifier.padding(16.dp)) {
       Text(text = title, style = MaterialTheme.typography.subtitle2)
