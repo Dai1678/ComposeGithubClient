@@ -28,7 +28,10 @@ class UserDetailActivity : ComponentActivity() {
           modifier = Modifier.fillMaxSize(),
           color = MaterialTheme.colors.background
         ) {
-          UserDetailScreen(userName = userName)
+          UserDetailScreen(
+            userName = userName,
+            onClickNavigationIcon = { finish() }
+          )
         }
       }
     }

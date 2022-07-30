@@ -21,12 +21,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,7 +59,8 @@ import dev.dai.githubclient.ui.theme.GithubClientTheme
 fun UserDetailScreen(
   userName: String,
   viewModel: UserDetailViewModel = viewModel(),
-  scaffoldState: ScaffoldState = rememberScaffoldState()
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
+  onClickNavigationIcon: () -> Unit
 ) {
   val context = LocalContext.current
   val uiState = viewModel.uiState
@@ -69,7 +74,12 @@ fun UserDetailScreen(
     modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
-        title = { Text(text = stringResource(id = R.string.title_user_repository)) }
+        title = { Text(text = stringResource(id = R.string.title_user_repository)) },
+        navigationIcon = {
+          IconButton(onClick = onClickNavigationIcon) {
+            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+          }
+        }
       )
     }
   ) {
