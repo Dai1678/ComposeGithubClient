@@ -10,11 +10,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
+@ExperimentalMaterialApi
+@AndroidEntryPoint
 class UserDetailActivity : ComponentActivity() {
 
-  @ExperimentalMaterialApi
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
