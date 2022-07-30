@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -81,6 +83,39 @@ private fun UserDetailHeader(
   }
 }
 
+@ExperimentalMaterialApi
+@Composable
+private fun GithubRepoCard(
+  title: String,
+  description: String?,
+  language: String?,
+  stargazerCount: Int,
+  onClickItem: () -> Unit
+) {
+  Card(
+    modifier = Modifier.fillMaxWidth(),
+    onClick = onClickItem
+  ) {
+    Column(modifier = Modifier.padding(16.dp)) {
+      Text(text = title, style = MaterialTheme.typography.subtitle2)
+      Text(
+        text = description.orEmpty(),
+        style = MaterialTheme.typography.body2,
+        color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
+      )
+      Row(
+        modifier = Modifier.align(Alignment.End),
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        Text(text = language.orEmpty(), style = MaterialTheme.typography.body2)
+        Spacer(modifier = Modifier.width(16.dp))
+        Image(painter = painterResource(id = R.drawable.ic_star_outline), contentDescription = null)
+        Text(text = stargazerCount.toString(), style = MaterialTheme.typography.body2)
+      }
+    }
+  }
+}
+
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
@@ -93,6 +128,24 @@ private fun UserDetailHeaderPreview() {
         imageUrl = "https://avatars.githubusercontent.com/u/19250035?v=4",
         followerCount = 10,
         followingCount = 1
+      )
+    }
+  }
+}
+
+@ExperimentalMaterialApi
+@Preview
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun GithubRepoItemPreview() {
+  GithubClientTheme {
+    Surface {
+      GithubRepoCard(
+        title = "リポジトリ名",
+        description = "リポジトリの説明",
+        language = "Kotlin",
+        stargazerCount = 0,
+        onClickItem = {}
       )
     }
   }
