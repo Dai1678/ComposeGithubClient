@@ -25,6 +25,7 @@ class UserRepositoryTest : DescribeSpec({
 
   describe("#userDetail") {
     val userName = "user"
+    val sort = "pushed"
     context("response success") {
       coEvery {
         githubApi.user(userName)
@@ -37,7 +38,7 @@ class UserRepositoryTest : DescribeSpec({
         followers = 0
       )
       coEvery {
-        githubApi.userGithubRepo(userName, 50)
+        githubApi.userGithubRepo(userName, 50, sort)
       } returns listOf(
         GithubRepoBody(
           id = 0,
@@ -78,7 +79,7 @@ class UserRepositoryTest : DescribeSpec({
 
       it("verify") {
         coVerify(exactly = 1) { githubApi.user(userName) }
-        coVerify(exactly = 1) { githubApi.userGithubRepo(userName, 50) }
+        coVerify(exactly = 1) { githubApi.userGithubRepo(userName, 50, sort) }
       }
     }
 
@@ -93,7 +94,7 @@ class UserRepositoryTest : DescribeSpec({
 
       it("verify") {
         coVerify(exactly = 0) { githubApi.user(userName) }
-        coVerify(exactly = 0) { githubApi.userGithubRepo(userName, 50) }
+        coVerify(exactly = 0) { githubApi.userGithubRepo(userName, 50, sort) }
       }
     }
   }
