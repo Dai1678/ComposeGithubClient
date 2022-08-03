@@ -35,6 +35,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        ]
     }
     buildFeatures {
         compose true
@@ -94,4 +98,10 @@ dependencies {
 
     // Coroutines
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+
+    // Chrome Custom Tabs
+    implementation "androidx.browser:browser:1.4.0"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:5.0.1"
 }

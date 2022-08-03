@@ -5,4 +5,8 @@
     <string name="label_user_name">ユーザー名</string>
     <string name="message_failed_fetch">通信に失敗しました。再度お試しください。</string>
     <string name="message_empty_user_search_result">検索結果なし</string>
+    <string name="title_user_repository">ユーザーリポジトリ</string>
+    <string name="label_followers">followers</string>
+    <string name="label_following">following</string>
+    <string name="message_empty_user_repository">リポジトリはありません</string>
 </resources>

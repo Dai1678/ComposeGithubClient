@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,13 +43,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.model.UserSearchResult
+import dev.dai.githubclient.ui.component.EmptyListContent
 import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
 @Composable
 fun UserSearchScreen(
   viewModel: UserSearchViewModel = viewModel(),
-  scaffoldState: ScaffoldState = rememberScaffoldState()
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
+  navigateToUserDetail: (String) -> Unit
 ) {
   val uiState = viewModel.uiState
 
@@ -69,7 +70,7 @@ fun UserSearchScreen(
       onSearchTextChanged = { viewModel.onSearchTextChanged(it) },
       onClickSearch = { viewModel.searchUser() },
       onClickUserRow = {
-        // TODO ユーザーリポジトリ画面に遷移
+        navigateToUserDetail(it)
       }
     )
   }
@@ -98,7 +99,7 @@ private fun UserSearchScreenContent(
   userList: List<UserSearchResult>,
   onSearchTextChanged: (String) -> Unit,
   onClickSearch: () -> Unit,
-  onClickUserRow: () -> Unit
+  onClickUserRow: (String) -> Unit
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     UserSearchHeader(
@@ -107,22 +108,14 @@ private fun UserSearchScreenContent(
       onClickSearch = onClickSearch
     )
     if (userList.isEmpty()) {
-      Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-      ) {
-        Text(
-          text = stringResource(id = R.string.message_empty_user_search_result),
-          style = MaterialTheme.typography.subtitle1
-        )
-      }
+      EmptyListContent(text = stringResource(id = R.string.message_empty_user_search_result))
     } else {
       LazyColumn {
         items(userList, key = { it.id }) {
           UserItem(
             userName = it.userName,
             imageUrl = it.avatarUrl,
-            onClickRow = onClickUserRow
+            onClickRow = { onClickUserRow(it.userName) }
           )
         }
       }
