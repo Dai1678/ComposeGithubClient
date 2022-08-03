@@ -19,8 +19,11 @@ class DefaultUserRepository @Inject constructor(
   override suspend fun userDetail(userName: String): UserDetail {
     val user = githubApi.user(userName).toUser()
     val githubRepoList =
-      githubApi.userGithubRepo(userName = userName, perPage = FETCH_GITHUB_REPO_PER_PAGE)
-        .toGithubRepoList()
+      githubApi.userGithubRepo(
+        userName = userName,
+        perPage = FETCH_GITHUB_REPO_PER_PAGE,
+        sort = FETCH_GITHUB_REPO_SORT
+      ).toGithubRepoList()
     return UserDetail(
       user = user,
       githubRepoList = githubRepoList
@@ -29,5 +32,6 @@ class DefaultUserRepository @Inject constructor(
 
   companion object {
     private const val FETCH_GITHUB_REPO_PER_PAGE = 50
+    private const val FETCH_GITHUB_REPO_SORT = "pushed"
   }
 }
