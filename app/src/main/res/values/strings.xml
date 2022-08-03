@@ -8,4 +8,5 @@
     <string name="title_user_repository">ユーザーリポジトリ</string>
     <string name="label_followers">followers</string>
     <string name="label_following">following</string>
+    <string name="message_empty_user_repository">リポジトリはありません</string>
 </resources>

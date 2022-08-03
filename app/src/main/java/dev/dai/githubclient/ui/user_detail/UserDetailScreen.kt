@@ -50,6 +50,7 @@ import coil.compose.AsyncImage
 import dev.dai.githubclient.R
 import dev.dai.githubclient.model.GithubRepo
 import dev.dai.githubclient.model.User
+import dev.dai.githubclient.ui.component.EmptyListContent
 import dev.dai.githubclient.ui.component.LoadingContent
 import dev.dai.githubclient.ui.theme.GithubClientTheme
 
@@ -125,18 +126,22 @@ private fun UserDetailContent(
       followerCount = user.followerCount,
       followingCount = user.followingCount
     )
-    LazyColumn(
-      contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-      verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-      items(repoList, key = { it.id }) {
-        GithubRepoCard(
-          title = it.title,
-          description = it.description,
-          language = it.language,
-          stargazerCount = it.stargazersCount,
-          onClickItem = { onClickRepoCard(it.url) }
-        )
+    if (repoList.isEmpty()) {
+      EmptyListContent(text = stringResource(id = R.string.message_empty_user_repository))
+    } else {
+      LazyColumn(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
+        items(repoList, key = { it.id }) {
+          GithubRepoCard(
+            title = it.title,
+            description = it.description,
+            language = it.language,
+            stargazerCount = it.stargazersCount,
+            onClickItem = { onClickRepoCard(it.url) }
+          )
+        }
       }
     }
   }
