@@ -11,7 +11,7 @@ Github Client for Android Jetpack Compose
 
 |UserSearch|UserRepository|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/19250035/179735564-ae24f0f5-eb9c-4168-ba12-8042c59b7f85.png" width=300>|<image src="https://user-images.githubusercontent.com/19250035/181884605-21c90817-a2d0-4273-bd26-2f565fe40276.png" width=300|
+|<img src="https://user-images.githubusercontent.com/19250035/179735564-ae24f0f5-eb9c-4168-ba12-8042c59b7f85.png" width=300>|<img src="https://user-images.githubusercontent.com/19250035/181884605-21c90817-a2d0-4273-bd26-2f565fe40276.png" width=300|
 
 ### Getting Started
 
