@@ -26,7 +26,7 @@ class UserRepositoryTest : DescribeSpec({
   describe("#userDetail") {
     val userName = "user"
     val sort = "pushed"
-    context("response success") {
+    context("request success") {
       coEvery {
         githubApi.user(userName)
       } returns UserBody(
@@ -83,9 +83,49 @@ class UserRepositoryTest : DescribeSpec({
       }
     }
 
-    context("response fail") {
+    context("request user failed") {
       coEvery {
         githubApi.user(userName)
+      } throws Exception()
+
+      coEvery {
+        githubApi.userGithubRepo(userName, 50, sort)
+      } returns listOf(
+        GithubRepoBody(
+          id = 0,
+          name = "ComposeGithubClient",
+          description = "Github Client for Android Jetpack Compose",
+          fork = false,
+          htmlUrl = "https://github.com/Dai1678/ComposeGithubClient",
+          language = "Kotlin",
+          stargazersCount = 0
+        )
+      )
+
+      it("throw Exception") {
+        shouldThrow<Exception> { repository.userDetail(userName) }
+      }
+
+      it("verify") {
+        coVerify(exactly = 0) { githubApi.user(userName) }
+        coVerify(exactly = 0) { githubApi.userGithubRepo(userName, 50, sort) }
+      }
+    }
+
+    context("request userGithubRepo failed") {
+      coEvery {
+        githubApi.user(userName)
+      } returns UserBody(
+        id = 0,
+        userName = userName,
+        fullName = "user user",
+        avatarUrl = "https://placehold.jp/240x240.png",
+        following = 0,
+        followers = 0
+      )
+
+      coEvery {
+        githubApi.userGithubRepo(userName, 50, sort)
       } throws Exception()
 
       it("throw Exception") {
